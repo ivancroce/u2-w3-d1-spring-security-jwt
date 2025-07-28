@@ -33,7 +33,7 @@ public class EmployeeController {
     }
 
     // 2. POST http://localhost:3001/employees (+ payload)
-    @PostMapping
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public NewEmployeeRespDTO createEmployee(@RequestBody @Validated NewEmployeeDTO payload, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
