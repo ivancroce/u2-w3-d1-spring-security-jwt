@@ -1,6 +1,7 @@
 package ictech.u2_w3_d1_spring_security_jwt.tools;
 
 import ictech.u2_w3_d1_spring_security_jwt.entities.Employee;
+import ictech.u2_w3_d1_spring_security_jwt.exceptions.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,5 +25,11 @@ public class JWTTools {
     }
 
     public void verifyToken(String token) {
+        try {
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
+        } catch (Exception ex) {
+            // .parse() will throw us different types of exceptions depending on whether the token has been manipulated or expired or malformed.
+            throw new UnauthorizedException("Error with token. Please log in again.");
+        }
     }
 }
