@@ -56,7 +56,7 @@ public class EmployeeController {
 
     // 2. POST http://localhost:3001/employees/register (+ payload)
     @PostMapping("/register")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    // @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public NewEmployeeRespDTO createEmployee(@RequestBody @Validated NewEmployeeDTO payload, BindingResult validationResult) {
         if (validationResult.hasErrors()) {

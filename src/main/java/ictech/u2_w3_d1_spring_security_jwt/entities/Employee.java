@@ -1,5 +1,6 @@
 package ictech.u2_w3_d1_spring_security_jwt.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ictech.u2_w3_d1_spring_security_jwt.enums.EmployeeRole;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @ToString
+@JsonIgnoreProperties({"password", "authorities", "enabled", "accountNonExpired", "credentialsNonExpired", "accountNonLocked"})
 public class Employee implements UserDetails {
     @Id
     @GeneratedValue

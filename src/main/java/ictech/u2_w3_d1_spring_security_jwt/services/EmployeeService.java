@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,9 @@ public class EmployeeService {
     @Autowired
     private Cloudinary imgUploader;
 
+    @Autowired
+    private PasswordEncoder bcrypt;
+
     public Employee saveEmployee(NewEmployeeDTO payload) {
         // 1. Verify if the username and email are already in use.
         this.employeeRepository.findByUsername(payload.username()).ifPresent(employee -> {
@@ -40,7 +44,7 @@ public class EmployeeService {
         });
 
         // 2. Add server-generated values
-        Employee newEmployee = new Employee(payload.username(), payload.firstName(), payload.lastName(), payload.email(), payload.password());
+        Employee newEmployee = new Employee(payload.username(), payload.firstName(), payload.lastName(), payload.email(), bcrypt.encode(payload.password()));
         newEmployee.setProfileImageUrl("https://ui-avatars.com/api/?name=" + payload.username());
 
         //3. Save
